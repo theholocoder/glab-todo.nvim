@@ -6,7 +6,8 @@ Open and manage your pending GitLab todos in a Neovim scratch buffer.
 
 ## Requirements
 
-- **`glab` CLI** — installed and authenticated (`glab auth login`)
+- **Neovim** 0.10+
+- **`glab` CLI**, installed and authenticated (`glab auth login`)
 
 ---
 
@@ -48,7 +49,7 @@ use {
 
 ### Minimal configuration
 
-No options are required — a bare `setup()` call is sufficient:
+No options are required, a bare `setup()` call is sufficient:
 
 ```lua
 require("glab-todo").setup()
@@ -110,7 +111,7 @@ your colorscheme.
 
 ## Dependencies
 
-- [`glab`](https://gitlab.com/gitlab-org/cli) — the official GitLab CLI.
+- [`glab`](https://gitlab.com/gitlab-org/cli): the official GitLab CLI.
   Install it and run `glab auth login` before using the plugin.
 
 ---
@@ -125,5 +126,5 @@ change and any relevant context.
 
 ## License
 
-MIT — see [`LICENSE`](LICENSE).  
+MIT / see [`LICENSE`](LICENSE).  
 Copyright (c) 2026 TheHolocoder.

@@ -180,6 +180,8 @@ local function render_todo_line(todo)
 end
 
 --- Write todos into buffer `buf` and store initial IDs in `vim.b[buf]`.
+--- `err_msg` may contain embedded newlines (e.g. multi-line glab stderr);
+--- we split them into individual buffer lines and notify the user.
 ---@param buf integer
 ---@param todos GlabTodo[]
 ---@param err_msg string?  optional error message to display instead
@@ -189,8 +191,11 @@ function M.render(buf, todos, err_msg)
   local lines = {}
 
   if err_msg and err_msg ~= "" then
+    vim.notify("glab-todo: " .. err_msg, vim.log.levels.ERROR)
     table.insert(lines, "-- Error fetching todos --")
-    table.insert(lines, err_msg)
+    for sub in err_msg:gmatch("[^\n]+") do
+      table.insert(lines, sub)
+    end
   elseif #todos == 0 then
     table.insert(lines, "-- No pending GitLab todos --")
   else
@@ -201,7 +206,10 @@ function M.render(buf, todos, err_msg)
     end
   end
 
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  local ok, seterr = pcall(vim.api.nvim_buf_set_lines, buf, 0, -1, false, lines)
+  if not ok then
+    vim.notify("glab-todo: render failed: " .. tostring(seterr), vim.log.levels.ERROR)
+  end
 
   -- Store the set of IDs that were originally loaded (for diffing at save time)
   local ids = {}
