@@ -54,6 +54,12 @@ No options are required — a bare `setup()` call is sufficient:
 require("glab-todo").setup()
 ```
 
+You can also set a keymap to open the todos buffer:
+
+```lua
+vim.keymap.set("n", "<leader>glt", "<CMD>GlabTodo<CR>", { desc = "Open glab todo manager" })
+```
+
 ### Opening the todos buffer
 
 ```vim
